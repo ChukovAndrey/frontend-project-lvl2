@@ -1,7 +1,6 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "type": "module",
   "description": "[![Actions Status](https://github.com/ChukovAndrey/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/ChukovAndrey/frontend-project-lvl2/actions)",
   "bin": {
     "gendiff": "bin/gendiff.js"
@@ -18,6 +17,11 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ChukovAndrey/frontend-project-lvl2/issues"
+  },
+  "type": "module",
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
   },
   "homepage": "https://github.com/ChukovAndrey/frontend-project-lvl2#readme",
   "devDependencies": {
