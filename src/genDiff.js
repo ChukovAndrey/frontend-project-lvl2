@@ -2,8 +2,8 @@ import _ from 'lodash';
 import fs from 'fs';
 
 const genDiff = (path1, path2) => {
-  const json1 = JSON.stringify(fs.readFileSync(path1, 'utf-8'));
-  const json2 = JSON.stringify(fs.readFileSync(path2, 'utf-8'));
+  const json1 = JSON.parse(fs.readFileSync(path1, 'utf-8'));
+  const json2 = JSON.parse(fs.readFileSync(path2, 'utf-8'));
 
   const entries1 = Object.entries(json1).sort();
   const entries2 = Object.entries(json2).sort();
