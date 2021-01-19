@@ -31,7 +31,7 @@ const genDiff = (path1, path2) => {
     return tmp;
   }, '');
 
-  const fullString = `{${outputString}\n}`;
+  const fullString = `{${outputString}\n}\n`;
 
   return fullString;
 };
