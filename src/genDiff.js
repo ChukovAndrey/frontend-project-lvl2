@@ -1,23 +1,37 @@
 import _ from 'lodash';
 import fs from 'fs';
+import yaml from 'js-yaml';
+import path from 'path';
+
+const parseFile = (pathToFile) => {
+  const extension = path.extname(pathToFile);
+  switch (extension) {
+    case '.json':
+      return JSON.parse(fs.readFileSync(pathToFile, 'utf-8'));
+    case '.yml':
+      return yaml.load(fs.readFileSync(pathToFile, 'utf-8'));
+    default:
+      throw new Error('Wrong file type');
+  }
+};
 
 const genDiff = (path1, path2) => {
-  const json1 = JSON.parse(fs.readFileSync(path1, 'utf-8'));
-  const json2 = JSON.parse(fs.readFileSync(path2, 'utf-8'));
+  const obj1 = parseFile(path1);
+  const obj2 = parseFile(path2);
 
-  const entries1 = Object.entries(json1).sort();
-  const entries2 = Object.entries(json2).sort();
+  const entries1 = Object.entries(obj1).sort();
+  const entries2 = Object.entries(obj2).sort();
 
   const allEntries = entries1.concat(entries2);
   const uniqEntries = _.uniqWith(allEntries, _.isEqual);
 
   const resultWithStatus = uniqEntries.map((arrayItem) => {
     const [key, value] = arrayItem;
-    if (json1[key] === value && json2[key] === value) {
+    if (obj1[key] === value && obj2[key] === value) {
       arrayItem.push(' ');
-    } else if (json2[key] === value) {
+    } else if (obj2[key] === value) {
       arrayItem.push('+');
-    } else if (json1[key] === value) {
+    } else if (obj1[key] === value) {
       arrayItem.push('-');
     }
 
