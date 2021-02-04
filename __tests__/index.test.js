@@ -13,10 +13,14 @@ const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8'
 const jsonPath1 = getFixturePath('file1.json');
 const jsonPath2 = getFixturePath('file2.json');
 
+const jsonNestedPath1 = getFixturePath('nested1.json');
+const jsonNestedPath2 = getFixturePath('nested2.json');
+
 const yamlPath1 = getFixturePath('file1.yml');
 const yamlPath2 = getFixturePath('file2.yml');
 
 const expected = readFile('expected.txt');
+const expectedNested = readFile('expected2.txt');
 
 test('json_flat', () => {
   expect(genDiff(jsonPath1, jsonPath2)).toBe(expected);
@@ -24,4 +28,8 @@ test('json_flat', () => {
 
 test('yaml_flat', () => {
   expect(genDiff(yamlPath1, yamlPath2)).toBe(expected);
+});
+
+test('json_nested', () => {
+  expect(genDiff(jsonNestedPath1, jsonNestedPath2)).toBe(expectedNested);
 });
