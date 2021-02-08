@@ -15,39 +15,72 @@ const parseFile = (pathToFile) => {
   }
 };
 
+const genObjDiff = (obj1, obj2) => {
+  const keys = Object.keys({
+    ...obj1,
+    ...obj2,
+  }).sort();
+
+  const resultWithStatus = keys.map((key) => {
+    const value1 = obj1[key];
+    const value2 = obj2[key];
+
+    if (_.isObject(value1) && _.isObject(value2)) {
+      return {
+        type: 'NESTED',
+        key,
+        children: genObjDiff(value1, value2),
+      };
+    }
+    if (_.has(obj1, key) && !_.has(obj2, key)) {
+      return {
+        type: 'DELETED',
+        key,
+        value1,
+      };
+    }
+    if (!_.has(obj1, key) && _.has(obj2, key)) {
+      return {
+        type: 'ADDED',
+        key,
+        value1,
+      };
+    }
+    if (value1 === value2) {
+      return {
+        type: 'UNCHANGED',
+        key,
+        value1,
+      };
+    }
+    if (value1 !== value2) {
+      return {
+        type: 'CHANGED',
+        key,
+        value1,
+        value2,
+      };
+    }
+  });
+
+  // const outputString = resultWithStatus.reduce((acc, arrayItem) => {
+  //   const [key, value, status] = arrayItem;
+  //   let tmp = acc; // remove eslin no-param-reassign
+  //   tmp += `\n\t${status} ${key}: ${value}`;
+  //   return tmp;
+  // }, '');
+
+  // const fullString = `{${outputString}\n}\n`;
+
+  // return fullString;
+  return resultWithStatus;
+};
+
 const genDiff = (path1, path2) => {
   const obj1 = parseFile(path1);
   const obj2 = parseFile(path2);
 
-  const entries1 = Object.entries(obj1).sort();
-  const entries2 = Object.entries(obj2).sort();
-
-  const allEntries = entries1.concat(entries2);
-  const uniqEntries = _.uniqWith(allEntries, _.isEqual);
-
-  const resultWithStatus = uniqEntries.map((arrayItem) => {
-    const [key, value] = arrayItem;
-    if (obj1[key] === value && obj2[key] === value) {
-      arrayItem.push(' ');
-    } else if (obj2[key] === value) {
-      arrayItem.push('+');
-    } else if (obj1[key] === value) {
-      arrayItem.push('-');
-    }
-
-    return arrayItem;
-  });
-
-  const outputString = resultWithStatus.reduce((acc, arrayItem) => {
-    const [key, value, status] = arrayItem;
-    let tmp = acc; // remove eslin no-param-reassign
-    tmp += `\n\t${status} ${key}: ${value}`;
-    return tmp;
-  }, '');
-
-  const fullString = `{${outputString}\n}\n`;
-
-  return fullString;
+  return genObjDiff(obj1, obj2);
 };
 
 export default genDiff;
