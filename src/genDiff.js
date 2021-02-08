@@ -53,14 +53,12 @@ const genObjDiff = (obj1, obj2) => {
         value1,
       };
     }
-    if (value1 !== value2) {
-      return {
-        type: 'CHANGED',
-        key,
-        value1,
-        value2,
-      };
-    }
+    return {
+      type: 'CHANGED',
+      key,
+      value1,
+      value2,
+    };
   });
 
   // const outputString = resultWithStatus.reduce((acc, arrayItem) => {
