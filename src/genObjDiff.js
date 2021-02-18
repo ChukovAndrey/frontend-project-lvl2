@@ -14,6 +14,7 @@ const genObjDiff = (obj1, obj2) => {
       return {
         type: 'NESTED',
         key,
+        // eslint-disable-next-line no-unused-vars
         children: genObjDiff(originalValue, changedValue),
       };
     }
