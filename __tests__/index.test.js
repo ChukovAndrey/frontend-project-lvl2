@@ -19,17 +19,17 @@ const jsonNestedPath2 = getFixturePath('nested2.json');
 const yamlPath1 = getFixturePath('file1.yml');
 const yamlPath2 = getFixturePath('file2.yml');
 
-const expected = readFile('expected.txt');
-const expectedNested = readFile('expected2.txt');
+const expectedFlat = readFile('expected_flat.txt');
+const expectedStylish = readFile('expected_stylish.txt');
 
 test('json_flat', () => {
-  expect(genDiff(jsonPath1, jsonPath2)).toBe(expected);
+  expect(genDiff(jsonPath1, jsonPath2)).toBe(expectedFlat);
 });
 
 test('yaml_flat', () => {
-  expect(genDiff(yamlPath1, yamlPath2)).toBe(expected);
+  expect(genDiff(yamlPath1, yamlPath2)).toBe(expectedFlat);
 });
 
-test('json_nested', () => {
-  expect(genDiff(jsonNestedPath1, jsonNestedPath2)).toBe(expectedNested);
+test('json_stylish', () => {
+  expect(genDiff(jsonNestedPath1, jsonNestedPath2, 'stylish')).toBe(expectedStylish);
 });
