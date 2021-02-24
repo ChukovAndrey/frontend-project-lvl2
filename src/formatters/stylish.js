@@ -19,7 +19,7 @@ const stringify = (obj, depth = 1) => {
   return iter(obj, depth);
 };
 
-const formatter = (tree) => {
+const stylishFormatter = (tree) => {
   const mapping = {
     DELETED: '- ',
     ADDED: '+ ',
@@ -39,6 +39,10 @@ const formatter = (tree) => {
     }) => {
       if (type === 'NESTED') {
         return `${genSpacer(deep, 'NESTED')}${key}: ${iter(children, deep + 1)}`;
+      }
+
+      if (type === 'ADDED') {
+        return `${genSpacer(deep, 'ADDED')}${mapping.ADDED}${key}: ${stringify(newValue, deep)}`;
       }
 
       if (type === 'CHANGED') {
@@ -61,4 +65,4 @@ const formatter = (tree) => {
   return iter(tree);
 };
 
-export default formatter;
+export default stylishFormatter;

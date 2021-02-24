@@ -29,7 +29,7 @@ const genObjDiff = (obj1, obj2) => {
       return {
         type: 'ADDED',
         key,
-        value: changedValue,
+        newValue: changedValue,
       };
     }
     if (originalValue === changedValue) {
