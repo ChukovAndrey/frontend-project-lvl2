@@ -22,6 +22,7 @@ const yamlPath2 = getFixturePath('file2.yml');
 const expectedFlat = readFile('expected_flat.txt');
 const expectedStylish = readFile('expected_stylish.txt');
 const expectedPlain = readFile('expected_plain.txt');
+const expectedJson = readFile('expected_json.txt');
 
 test('json_flat', () => {
   expect(genDiff(jsonPath1, jsonPath2)).toBe(expectedFlat);
@@ -37,4 +38,8 @@ test('json_stylish', () => {
 
 test('json_plain', () => {
   expect(genDiff(jsonNestedPath1, jsonNestedPath2, 'plain')).toBe(expectedPlain);
+});
+
+test('json_json', () => {
+  expect(genDiff(jsonNestedPath1, jsonNestedPath2, 'json')).toBe(expectedJson);
 });
