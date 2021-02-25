@@ -1,12 +1,14 @@
 import _ from 'lodash';
 
 const genObjDiff = (obj1, obj2) => {
-  const keys = Object.keys({
+  const keys = _.keys({
     ...obj1,
     ...obj2,
-  }).sort();
+  });
 
-  return keys.map((key) => {
+  const sortedKeys = _.sortBy(keys);
+
+  return sortedKeys.map((key) => {
     const originalValue = obj1[key];
     const changedValue = obj2[key];
 
