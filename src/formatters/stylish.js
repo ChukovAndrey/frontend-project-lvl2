@@ -23,7 +23,7 @@ const stylishFormatter = (tree) => {
     DELETED: '- ',
     ADDED: '+ ',
     UNCHANGED: ' ',
-    CHANGED: '+-',
+    CHANGED: '',
     NESTED: '',
   };
 
@@ -36,22 +36,19 @@ const stylishFormatter = (tree) => {
     const lines = currentTree.map(({
       type, key, value, newValue, children,
     }) => {
-      if (type === 'NESTED') {
-        return `${genSpacer(deep, 'NESTED')}${key}: ${iter(children, deep + 1)}`;
+      switch (type) {
+        case 'NESTED':
+          return `${genSpacer(deep, 'NESTED')}${key}: ${iter(children, deep + 1)}`;
+        case 'ADDED':
+          return `${genSpacer(deep, 'ADDED')}${mapping.ADDED}${key}: ${stringify(newValue, deep)}`;
+        case 'CHANGED':
+          return [
+            `${genSpacer(deep, 'DELETED')}${mapping.DELETED}${key}: ${stringify(value, deep)}`,
+            `${genSpacer(deep, 'ADDED')}${mapping.ADDED}${key}: ${stringify(newValue, deep)}`,
+          ].join('\n');
+        default:
+          return `${genSpacer(deep, type)}${mapping[type]}${key}: ${stringify(value, deep)}`;
       }
-
-      if (type === 'ADDED') {
-        return `${genSpacer(deep, 'ADDED')}${mapping.ADDED}${key}: ${stringify(newValue, deep)}`;
-      }
-
-      if (type === 'CHANGED') {
-        return [
-          `${genSpacer(deep, 'DELETED')}${mapping.DELETED}${key}: ${stringify(value, deep)}`,
-          `${genSpacer(deep, 'ADDED')}${mapping.ADDED}${key}: ${stringify(newValue, deep)}`,
-        ].join('\n');
-      }
-
-      return `${genSpacer(deep, type)}${mapping[type]}${key}: ${stringify(value, deep)}`;
     }).join('\n');
 
     return [
