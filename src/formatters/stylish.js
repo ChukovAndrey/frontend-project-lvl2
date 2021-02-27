@@ -1,18 +1,17 @@
 const spacer = '    ';
 
 const stringify = (obj, depth = 1) => {
-  // eslint-disable-next-line no-shadow
-  const iter = (currentValue, depth) => {
+  const iter = (currentValue, currentDepth) => {
     if (!(currentValue instanceof Object)) {
       return String(currentValue);
     }
 
-    const lines = Object.entries(currentValue).map(([key, val]) => `${spacer.repeat(depth + 1)}${key}: ${iter(val, depth + 1)}`);
+    const lines = Object.entries(currentValue).map(([key, val]) => `${spacer.repeat(currentDepth + 1)}${key}: ${iter(val, currentDepth + 1)}`);
 
     return [
       '{',
       ...lines,
-      `${spacer.repeat(depth)}}`,
+      `${spacer.repeat(currentDepth)}}`,
     ].join('\n');
   };
 
