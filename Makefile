@@ -2,6 +2,12 @@
 install:
 	npm ci
 
+link:
+	npm link
+
+setup:
+	install link
+
 publish:
 	npm publish --dry-run
 
