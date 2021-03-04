@@ -1,4 +1,6 @@
 const spacer = '    ';
+const spacerSymbol = ' ';
+const baseShift = 4;
 
 const stringify = (obj, depth = 1) => {
   const iter = (currentValue, currentDepth) => {
@@ -26,9 +28,6 @@ const stylishFormatter = (tree) => {
     CHANGED: '',
     NESTED: '',
   };
-
-  const spacerSymbol = ' ';
-  const baseShift = 4;
 
   const genSpacer = (deep, type = 'NESTED') => spacerSymbol.repeat(baseShift * deep - mapping[type].length);
 
