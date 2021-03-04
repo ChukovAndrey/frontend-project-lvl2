@@ -15,7 +15,7 @@ git clone https://github.com/ChukovAndrey/frontend-project-lvl2.git
 cd frontend-project-lvl2
 ```
 ```
-make install
+make setup
 ```
 ## Usage:
 ```
