@@ -1,7 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/ChukovAndrey/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/ChukovAndrey/frontend-project-lvl2/actions)",
+  "description": "Difference generator (generates difference between json/yaml files in various formats)",
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
