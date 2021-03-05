@@ -1,14 +1,10 @@
 import yaml from 'js-yaml';
 
-const parseFile = (obj, extension) => {
-  switch (extension) {
-    case '.json':
-      return JSON.parse(obj);
-    case '.yml':
-      return yaml.load(obj);
-    default:
-      throw new Error('Wrong file type');
-  }
+const parsers = {
+  json: (obj) => JSON.parse(obj),
+  yml: (obj) => yaml.load(obj),
 };
+
+const parseFile = (obj, extension) => parsers[extension](obj);
 
 export default parseFile;

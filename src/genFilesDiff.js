@@ -5,8 +5,8 @@ import genObjDiff from './genObjDiff.js';
 import formatter from './formatters/index.js';
 
 const genDiff = (path1, path2, format = 'stylish') => {
-  const extension1 = path.extname(path1);
-  const extension2 = path.extname(path2);
+  const extension1 = path.extname(path1).slice(1);
+  const extension2 = path.extname(path2).slice(1);
 
   const obj1 = fs.readFileSync(path1, 'utf-8');
   const obj2 = fs.readFileSync(path2, 'utf-8');
