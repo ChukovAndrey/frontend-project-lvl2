@@ -5,8 +5,7 @@ install:
 link:
 	npm link
 
-setup:
-	install link
+setup: install link
 
 publish:
 	npm publish --dry-run
