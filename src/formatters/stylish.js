@@ -1,8 +1,8 @@
-const spacer = '    ';
 const spacerSymbol = ' ';
 const baseShift = 4;
 
 const stringify = (obj, depth = 1) => {
+  const spacer = spacerSymbol.repeat(baseShift);
   const iter = (currentValue, currentDepth) => {
     if (!(currentValue instanceof Object)) {
       return String(currentValue);
