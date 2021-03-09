@@ -1,19 +1,28 @@
+const mapping = {
+  DELETED: '- ',
+  ADDED: '+ ',
+  UNCHANGED: ' ',
+  CHANGED: '',
+  NESTED: '',
+};
+
 const spacerSymbol = ' ';
 const baseShift = 4;
 
+const genSpacer = (deep, type = 'NESTED') => spacerSymbol.repeat(baseShift * deep - mapping[type].length);
+
 const stringify = (obj, depth = 1) => {
-  const spacer = spacerSymbol.repeat(baseShift);
   const iter = (currentValue, currentDepth) => {
     if (!(currentValue instanceof Object)) {
       return String(currentValue);
     }
 
-    const lines = Object.entries(currentValue).map(([key, val]) => `${spacer.repeat(currentDepth + 1)}${key}: ${iter(val, currentDepth + 1)}`);
+    const lines = Object.entries(currentValue).map(([key, val]) => `${genSpacer(currentDepth + 1)}${key}: ${iter(val, currentDepth + 1)}`);
 
     return [
       '{',
       ...lines,
-      `${spacer.repeat(currentDepth)}}`,
+      `${genSpacer(currentDepth)}}`,
     ].join('\n');
   };
 
@@ -21,16 +30,6 @@ const stringify = (obj, depth = 1) => {
 };
 
 const stylishFormatter = (tree) => {
-  const mapping = {
-    DELETED: '- ',
-    ADDED: '+ ',
-    UNCHANGED: ' ',
-    CHANGED: '',
-    NESTED: '',
-  };
-
-  const genSpacer = (deep, type = 'NESTED') => spacerSymbol.repeat(baseShift * deep - mapping[type].length);
-
   const iter = (currentTree, deep = 1) => {
     const lines = currentTree.map(({
       type, key, value, newValue, children,
