@@ -29,13 +29,13 @@ const plainFormatter = (diff) => {
       case 'CHANGED':
         return `Property '${currentPathStr}' was updated. From ${outputOldValue} to ${outputValue}`;
       case 'UNCHANGED':
-        return [];
+        return null;
       default:
-        throw new Error('wrong type');
+        throw new Error(`wrong type ${type}`);
     }
   });
 
-  return iter(diff, []).join('\n');
+  return iter(diff, []).filter((item) => item !== null).join('\n');
 };
 
 export default plainFormatter;
