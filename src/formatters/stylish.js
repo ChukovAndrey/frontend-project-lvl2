@@ -1,7 +1,9 @@
+import _ from 'lodash';
+
 const mapping = {
   DELETED: '- ',
   ADDED: '+ ',
-  UNCHANGED: ' ',
+  UNCHANGED: '',
   CHANGED: '',
   NESTED: '',
 };
@@ -13,7 +15,7 @@ const genSpacer = (deep, type = 'NESTED') => spacerSymbol.repeat(baseShift * dee
 
 const stringify = (obj, depth = 1) => {
   const iter = (currentValue, currentDepth) => {
-    if (!(currentValue instanceof Object)) {
+    if (!_.isObject(currentValue)) {
       return String(currentValue);
     }
 
@@ -35,8 +37,9 @@ const stylishFormatter = (tree) => {
       type, key, value, newValue, children,
     }) => {
       switch (type) {
-        case 'NESTED':
-          return `${genSpacer(deep, 'NESTED')}${key}: ${iter(children, deep + 1)}`;
+        case 'UNCHANGED':
+        case 'DELETED':
+          return `${genSpacer(deep, type)}${mapping[type]}${key}: ${stringify(value, deep)}`;
         case 'ADDED':
           return `${genSpacer(deep, 'ADDED')}${mapping.ADDED}${key}: ${stringify(newValue, deep)}`;
         case 'CHANGED':
@@ -44,8 +47,10 @@ const stylishFormatter = (tree) => {
             `${genSpacer(deep, 'DELETED')}${mapping.DELETED}${key}: ${stringify(value, deep)}`,
             `${genSpacer(deep, 'ADDED')}${mapping.ADDED}${key}: ${stringify(newValue, deep)}`,
           ].join('\n');
+        case 'NESTED':
+          return `${genSpacer(deep, 'NESTED')}${key}: ${iter(children, deep + 1)}`;
         default:
-          return `${genSpacer(deep, type)}${mapping[type]}${key}: ${stringify(value, deep)}`;
+          throw new Error(`wrong type ${type}`);
       }
     }).join('\n');
 
