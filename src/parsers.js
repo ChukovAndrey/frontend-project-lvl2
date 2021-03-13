@@ -5,6 +5,6 @@ const parsers = {
   yml: (yamlString) => yaml.load(yamlString),
 };
 
-const parse = (receivedString, extension) => parsers[extension](receivedString);
+const parse = (dataString, format) => parsers[format](dataString);
 
 export default parse;
