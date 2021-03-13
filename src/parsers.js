@@ -1,10 +1,10 @@
 import yaml from 'js-yaml';
 
 const parsers = {
-  json: (obj) => JSON.parse(obj),
-  yml: (obj) => yaml.load(obj),
+  json: (jsonString) => JSON.parse(jsonString),
+  yml: (yamlString) => yaml.load(yamlString),
 };
 
-const parseFile = (obj, extension) => parsers[extension](obj);
+const parseString = (receivedString, extension) => parsers[extension](receivedString);
 
-export default parseFile;
+export default parseString;
